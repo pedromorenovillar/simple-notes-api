@@ -1,8 +1,16 @@
 {
-  "name": "ts-base",
+  "name": "mini-api-rest",
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
     "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^7.0.2"
   }
 }
