@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import healthRouter from "./routes/health.routes.js";
-import postRouter from "./routes/post.routes.js";
+import noteRouter from "./routes/note.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Routes
 app.use("/health", healthRouter);
-app.use("/post", postRouter);
+app.use("/note", noteRouter);
 
 // Root
 app.get("/", (req: Request, res: Response) => {

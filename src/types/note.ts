@@ -1,11 +1,11 @@
 // Sent by client
-export interface CreatePostDto {
+export interface CreateNoteDto {
   title: string;
   content: string;
 }
 
 // Model existing in DB
-export interface Post {
+export interface Note {
   id: number;
   title: string;
   content: string;

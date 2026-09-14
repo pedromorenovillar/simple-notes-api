@@ -1,5 +1,0 @@
-import { prisma } from "../lib/prisma";
-
-export async function getAllPosts() {
-  return await prisma.post.findMany();
-}
