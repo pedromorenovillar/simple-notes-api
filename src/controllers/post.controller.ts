@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { createPostSchema } from "../schemas/post.schema";
+import { createPostSchema } from "../schemas/post.schema.js";
 import { z } from "zod";
+import { prisma } from "../lib/prisma.js";
 
 export const createPost = (req: Request, res: Response): void => {
   // Zod valida los datos del cliente basándose en el esquema

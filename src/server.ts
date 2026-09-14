@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import healthRouter from "./routes/health.routes";
-import postRouter from "./routes/post.routes";
+import healthRouter from "./routes/health.routes.js";
+import postRouter from "./routes/post.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;

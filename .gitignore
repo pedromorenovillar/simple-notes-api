@@ -72,3 +72,7 @@ jest-output/
 # ───────────────────────────────
 prisma/*.db
 prisma/*.sqlite
+/generated/prisma
+.agents/
+.claude/
+.windsurf/
