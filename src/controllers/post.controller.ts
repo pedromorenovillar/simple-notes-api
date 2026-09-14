@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { createPostSchema } from "../schemas/post.schema.js";
 import { z } from "zod";
-import { prisma } from "../lib/prisma.js";
+import { getAllPosts } from "../services/postService.js";
 
 export const createPost = (req: Request, res: Response): void => {
   // Zod valida los datos del cliente basándose en el esquema
@@ -23,8 +23,13 @@ export const createPost = (req: Request, res: Response): void => {
   });
 };
 
-export const getPosts = (req: Request, res: Response): void => {
-  res.status(200).json({
-    message: "Get posts endpoint",
-  });
-};
+export async function getPosts(req: Request, res: Response) {
+  const posts = await getAllPosts();
+  if (posts.length === 0) {
+    res.status(200).json({
+      message: "No posts available",
+    });
+  } else {
+    res.status(200).json(posts);
+  }
+}
