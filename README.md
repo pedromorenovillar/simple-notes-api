@@ -80,9 +80,9 @@ npx prisma migrate dev
 npm run dev
 ```
 
-## What I learnt
+## Concepts Practiced
 
-- Strict typing and interface creation using TypeScript.
+- Building a type-safe REST API with TypeScript.
 - Integration with Prisma and how the schema models can be inferred as types.
 - Separation of concerns between routes, controllers, services and Prisma.
 - Typed controllers to reduce errors.
