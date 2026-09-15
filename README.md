@@ -4,8 +4,11 @@ Type-safe REST API created using Node.js, TypeScript, validation with Zod, layer
 
 ## Postman Screenshots
 
-| <img src="./public/get_health.png" width="200"><br> GET / | <img src="./public/get_note_empty.png" width="200"><br>Get /note (if empty) | <img src="./public/get_note_filled.png" width="200"><br>Get /note (with data) |
-| --------------------------------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| <img src="./public/get_health.png" width="200"><br> Server health check | <img src="./public/get_notes.png" width="200"><br>Get all notes | <img src="./public/get_note.png" width="200"><br>Get single note |
+| ----------------------------------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------- |
+
+| <img src="./public/put_note.png" width="200"><br>Update a specific note | <img src="./public/delete_note.png" width="200"><br>Delete a note |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------- |
 
 ## Architecture
 
@@ -24,11 +27,11 @@ The note is validated before being stored in the database.
 
 2. Get all notes
 
-Users can retrieve all notes from the database
+Users can retrieve all notes from the database.
 
 3. Get a note by id
 
-Users can retrieve a specific note from the database using its id
+Users can retrieve a specific note from the database using its id.
 
 4. Update a note
 
@@ -37,7 +40,7 @@ The note is validated before being stored in the database.
 
 5. Delete a note
 
-Users can delete a note.
+Users can delete a specific note from the database.
 
 ## Stack
 
@@ -90,13 +93,29 @@ npm run dev
 
 ## API examples
 
-GET /
+- GET /
 
 Returns `API running with TypeScript` to check if server is healthy.
 
-GET /notes
+- GET /notes
 
 Returns all notes stored in the database.
+
+- GET /notes/:id
+
+Returns a specific note from the database.
+
+- POST /notes
+
+Adds a note to the database.
+
+- PUT /notes/:id
+
+Updates a specific note from the database.
+
+- DELETE /notes/:id
+
+Deletes a specific note from the database.
 
 ## Project structure
 
