@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import { createNoteSchema } from "../schemas/note.schema.js";
+import { createIdSchema, createNoteSchema } from "../schemas/note.schema.js";
 import { z } from "zod";
 import {
   findNoteById,
   getAllNotes,
   insertNote,
   updateNote,
+  deleteNote,
 } from "../services/noteService.js";
 
 export async function createNote(req: Request, res: Response) {
@@ -76,4 +77,29 @@ export async function updateNoteById(
       updatedNote,
     });
   }
+}
+
+export async function deleteNoteById(
+  req: Request<{ id: string }>,
+  res: Response,
+) {
+  const result = createIdSchema.safeParse(req.params);
+
+  if (!result.success) {
+    res.status(400).json({
+      errors: z.treeifyError(result.error),
+    });
+    return;
+  }
+
+  const foundNote = await findNoteById(result.data.id);
+  if (!foundNote) {
+    res.status(404).json({ message: "No note found with that id" });
+    return;
+  }
+  const deletedNote = await deleteNote(foundNote.id);
+  res.status(200).json({
+    message: "Note deleted",
+    deletedNote,
+  });
 }

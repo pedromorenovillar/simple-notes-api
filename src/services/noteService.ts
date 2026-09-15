@@ -27,3 +27,7 @@ export async function updateNote(id: number, title: string, content: string) {
     },
   });
 }
+
+export async function deleteNote(id: number) {
+  return await prisma.note.delete({ where: { id } });
+}
