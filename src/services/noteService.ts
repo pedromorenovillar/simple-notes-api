@@ -17,3 +17,13 @@ export async function insertNote(note: CreateNoteDto) {
 export async function findNoteById(id: number) {
   return await prisma.note.findUnique({ where: { id } });
 }
+
+export async function updateNote(id: number, title: string, content: string) {
+  return await prisma.note.update({
+    where: { id },
+    data: {
+      title,
+      content,
+    },
+  });
+}

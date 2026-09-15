@@ -86,6 +86,7 @@ npm run dev
 - Integration with Prisma and how the schema models can be inferred as types.
 - Separation of concerns between routes, controllers, services and Prisma.
 - Typed controllers to reduce errors.
+- TypeScript type narrowing along the program flow.
 
 ## API examples
 

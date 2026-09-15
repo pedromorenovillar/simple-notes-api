@@ -5,8 +5,8 @@ import {
   findNoteById,
   getAllNotes,
   insertNote,
+  updateNote,
 } from "../services/noteService.js";
-import { prisma } from "../lib/prisma.js";
 
 export async function createNote(req: Request, res: Response) {
   // Zod validates data from client using the schema
@@ -48,5 +48,32 @@ export async function getNoteById(req: Request<{ id: string }>, res: Response) {
     res.status(404).json({ message: "No note found with that id" });
   } else {
     res.json(foundNote);
+  }
+}
+
+export async function updateNoteById(
+  req: Request<{ id: string }>,
+  res: Response,
+) {
+  const { id } = req.params;
+  const result = createNoteSchema.safeParse(req.body);
+
+  if (!result.success) {
+    res.status(400).json({
+      errors: z.treeifyError(result.error),
+    });
+    return;
+  }
+  const foundNote = await findNoteById(Number(id));
+  if (!foundNote) {
+    res.status(404).json({ message: "No note found with that id" });
+  } else {
+    const note = result.data;
+    const updatedNote = await updateNote(Number(id), note.title, note.content);
+
+    res.status(201).json({
+      message: "Note updated",
+      updatedNote,
+    });
   }
 }
