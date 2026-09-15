@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Routes
 app.use("/health", healthRouter);
-app.use("/note", noteRouter);
+app.use("/notes", noteRouter);
 
 // Root
 app.get("/", (req: Request, res: Response) => {
