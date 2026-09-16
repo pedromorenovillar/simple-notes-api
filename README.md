@@ -7,8 +7,8 @@ REST API for managing notes built with Node.js, Express, TypeScript, Prisma and 
 | <img src="./public/get_health.png" width="200"><br> Server health check | <img src="./public/get_notes.png" width="200"><br>Get all notes | <img src="./public/get_note.png" width="200"><br>Get single note |
 | ----------------------------------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------- |
 
-| <img src="./public/put_note.png" width="200"><br>Update a specific note | <img src="./public/delete_note.png" width="200"><br>Delete a note |
-| ----------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| <img src="./public/post_note.png" width="200"><br>Create a note | <img src="./public/put_note.png" width="200"><br>Update a specific note | <img src="./public/delete_note.png" width="200"><br>Delete a note |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------- |
 
 ## Architecture
 
