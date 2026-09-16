@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { createIdSchema, createNoteSchema } from "../schemas/note.schema.js";
 import { z } from "zod";
 import {
@@ -8,98 +8,130 @@ import {
   updateNote,
   deleteNote,
 } from "../services/noteService.js";
+import { NotFoundError } from "../errors/NotFoundError.js";
 
-export async function createNote(req: Request, res: Response) {
-  // Zod validates data from client using the schema
-  const result = createNoteSchema.safeParse(req.body);
+export async function createNote(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    // Zod validates data from client using the schema
+    const result = createNoteSchema.safeParse(req.body);
 
-  if (!result.success) {
-    res.status(400).json({
-      errors: z.treeifyError(result.error),
+    if (!result.success) {
+      res.status(400).json({
+        errors: z.treeifyError(result.error),
+      });
+      return;
+    }
+
+    // TypeScript knows here that the data are valid
+    const note = result.data;
+
+    const createdNote = await insertNote(note);
+
+    res.status(201).json({
+      message: "Note created",
+      createdNote,
     });
-    return;
-  }
-
-  // TypeScript knows here that the data are valid
-  const note = result.data;
-
-  const createdNote = await insertNote(note);
-
-  res.status(201).json({
-    message: "Note created",
-    createdNote,
-  });
-}
-
-export async function getNotes(req: Request, res: Response) {
-  const notes = await getAllNotes();
-  if (notes.length === 0) {
-    res.status(200).json({
-      message: "No notes available",
-    });
-  } else {
-    res.status(200).json(notes);
+  } catch (error) {
+    next(error);
   }
 }
 
-export async function getNoteById(req: Request<{ id: string }>, res: Response) {
+export async function getNotes(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const notes = await getAllNotes();
+    if (notes.length === 0) {
+      res.status(200).json({
+        message: "No notes available",
+      });
+    } else {
+      res.status(200).json(notes);
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getNoteById(
+  req: Request<{ id: string }>,
+  res: Response,
+  next: NextFunction,
+) {
   const { id } = req.params;
-  const foundNote = await findNoteById(Number(id));
-  if (!foundNote) {
-    res.status(404).json({ message: "No note found with that id" });
-  } else {
+  try {
+    const foundNote = await findNoteById(Number(id));
+    if (!foundNote) {
+      throw new NotFoundError("Note not found");
+    }
     res.json(foundNote);
+  } catch (error) {
+    next(error);
   }
 }
 
 export async function updateNoteById(
   req: Request<{ id: string }>,
   res: Response,
+  next: NextFunction,
 ) {
   const { id } = req.params;
-  const result = createNoteSchema.safeParse(req.body);
+  try {
+    const result = createNoteSchema.safeParse(req.body);
 
-  if (!result.success) {
-    res.status(400).json({
-      errors: z.treeifyError(result.error),
-    });
-    return;
-  }
-  const foundNote = await findNoteById(Number(id));
-  if (!foundNote) {
-    res.status(404).json({ message: "No note found with that id" });
-  } else {
+    if (!result.success) {
+      res.status(400).json({
+        errors: z.treeifyError(result.error),
+      });
+      return;
+    }
+    const foundNote = await findNoteById(Number(id));
+    if (!foundNote) {
+      throw new NotFoundError("Note not found");
+    }
     const note = result.data;
     const updatedNote = await updateNote(Number(id), note.title, note.content);
 
-    res.status(201).json({
+    res.status(200).json({
       message: "Note updated",
       updatedNote,
     });
+  } catch (error) {
+    next(error);
   }
 }
 
 export async function deleteNoteById(
   req: Request<{ id: string }>,
   res: Response,
+  next: NextFunction,
 ) {
-  const result = createIdSchema.safeParse(req.params);
+  try {
+    const result = createIdSchema.safeParse(req.params);
 
-  if (!result.success) {
-    res.status(400).json({
-      errors: z.treeifyError(result.error),
+    if (!result.success) {
+      res.status(400).json({
+        errors: z.treeifyError(result.error),
+      });
+      return;
+    }
+
+    const foundNote = await findNoteById(result.data.id);
+    if (!foundNote) {
+      throw new NotFoundError("Note not found");
+    }
+    const deletedNote = await deleteNote(foundNote.id);
+    res.status(200).json({
+      message: "Note deleted",
+      deletedNote,
     });
-    return;
+  } catch (error) {
+    next(error);
   }
-
-  const foundNote = await findNoteById(result.data.id);
-  if (!foundNote) {
-    res.status(404).json({ message: "No note found with that id" });
-    return;
-  }
-  const deletedNote = await deleteNote(foundNote.id);
-  res.status(200).json({
-    message: "Note deleted",
-    deletedNote,
-  });
 }
