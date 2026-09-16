@@ -1,6 +1,6 @@
 # Simple Notes API
 
-Type-safe REST API created using Node.js, TypeScript, validation with Zod, layered architecture and Prisma ORM interacting with PostgreSQL. It allows users to manage short notes.
+REST API for managing notes built with Node.js, TypeScript, Prisma and PostgreSQL. The project applies strict typing, data validation with Zod, and a layered architecture based on routes, controllers and services to improve maintainability and reduce runtime errors.
 
 ## Postman Screenshots
 
