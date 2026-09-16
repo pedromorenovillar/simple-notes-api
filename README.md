@@ -56,7 +56,7 @@ Users can delete a specific note from the database.
 1. Clone the repo from GitHub.
 
 ```
-git clone git@github.com:pedromorenovillar/simple_notes_api.git
+git clone git@github.com:pedromorenovillar/simple-notes-api.git
 ```
 
 2. Install project dependencies.
