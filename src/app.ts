@@ -12,11 +12,11 @@ app.use(express.json());
 app.use("/health", healthRouter);
 app.use("/notes", noteRouter);
 
-app.use(errorMiddleware);
-
 // Root
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "API running with TypeScript" });
 });
+
+app.use(errorMiddleware);
 
 export default app;
