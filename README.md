@@ -1,6 +1,8 @@
 # Simple Notes API
 
-REST API for managing notes built with Node.js, Express, TypeScript, Prisma and PostgreSQL. The project applies strict typing, data validation with Zod, and a layered architecture based on routes, controllers and services to improve maintainability and reduce runtime errors.
+REST API for managing notes built with Node.js, Express, TypeScript, Prisma and PostgreSQL.
+
+The project applies strict typing, data validation with Zod, centralized error handling, integration testing and a layered architecture based on routes, controllers and services to improve maintainability and reduce runtime errors.
 
 ## Postman Screenshots
 
@@ -20,25 +22,25 @@ flowchart TD
 
 ## Use cases
 
-1. Create a note
+### Create a note
 
 Users can create a new note by submitting its title and content.
 The note is validated before being stored in the database.
 
-2. Get all notes
+### Get all notes
 
 Users can retrieve all notes from the database.
 
-3. Get a note by id
+### Get a note by id
 
 Users can retrieve a specific note from the database using its id.
 
-4. Update a note
+### Update a note
 
 Users can update a note title and content.
 The note is validated before being stored in the database.
 
-5. Delete a note
+### Delete a note
 
 Users can delete a specific note from the database.
 
@@ -50,6 +52,9 @@ Users can delete a specific note from the database.
 - Prisma
 - PostgreSQL
 - Zod
+- Vitest
+- Supertest
+- Centralized error handling
 
 ## How to run
 
@@ -90,12 +95,14 @@ npm run dev
 - Separation of concerns between routes, controllers, services and Prisma.
 - Typed controllers to reduce errors.
 - TypeScript type narrowing along the program flow.
+- Custom error classes using inheritance.
+- Centralized error handling middleware.
 
 ## API examples
 
-- GET /
+- GET /health
 
-Returns `API running with TypeScript` to check if server is healthy.
+Returns the health status of the API.
 
 - GET /notes
 
