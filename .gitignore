@@ -76,3 +76,4 @@ prisma/*.sqlite
 .agents/
 .claude/
 .windsurf/
+*vitest.md
