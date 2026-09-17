@@ -1,7 +1,3 @@
-// ¿Está Vitest configurado correctamente?
-// ¿Está Supertest configurado correctamente?
-// ¿Importo app correctamente?
-
 import { describe, it, expect } from "vitest";
 import request from "supertest";
 
