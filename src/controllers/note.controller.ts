@@ -64,9 +64,16 @@ export async function getNoteById(
   res: Response,
   next: NextFunction,
 ) {
-  const { id } = req.params;
   try {
-    const foundNote = await findNoteById(Number(id));
+    const result = createIdSchema.safeParse(req.params);
+
+    if (!result.success) {
+      res.status(400).json({
+        errors: z.treeifyError(result.error),
+      });
+      return;
+    }
+    const foundNote = await findNoteById(result.data.id);
     if (!foundNote) {
       throw new NotFoundError("Note not found");
     }
@@ -81,9 +88,9 @@ export async function updateNoteById(
   res: Response,
   next: NextFunction,
 ) {
-  const { id } = req.params;
   try {
     const result = createNoteSchema.safeParse(req.body);
+    const idResult = createIdSchema.safeParse(req.params);
 
     if (!result.success) {
       res.status(400).json({
@@ -91,12 +98,22 @@ export async function updateNoteById(
       });
       return;
     }
-    const foundNote = await findNoteById(Number(id));
+    if (!idResult.success) {
+      res.status(400).json({
+        errors: z.treeifyError(idResult.error),
+      });
+      return;
+    }
+    const foundNote = await findNoteById(idResult.data.id);
     if (!foundNote) {
       throw new NotFoundError("Note not found");
     }
     const note = result.data;
-    const updatedNote = await updateNote(Number(id), note.title, note.content);
+    const updatedNote = await updateNote(
+      idResult.data.id,
+      note.title,
+      note.content,
+    );
 
     res.status(200).json({
       message: "Note updated",
